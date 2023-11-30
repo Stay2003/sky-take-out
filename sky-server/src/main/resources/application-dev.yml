@@ -11,3 +11,11 @@ sky:
     access-key-id: LTAI5tLM9aezSvW5zB9HPbJd
     access-key-secret: SMBlqOgOnHHjZzeEm144q4ZEL9s078
     bucket-name: stay2003
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 0
+  wechat:
+    appid: wx013f153359c145f7
+    secret: 8495cc9b35eac09e9f54e64d7e1786f3
