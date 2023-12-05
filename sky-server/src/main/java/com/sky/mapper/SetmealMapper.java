@@ -58,6 +58,7 @@ public interface SetmealMapper {
      * 修改套餐
      * @param setmeal
      */
+    @AutoFill(OperationType.UPDATE)
     void update(Setmeal setmeal);
 
     /**
@@ -76,6 +77,13 @@ public interface SetmealMapper {
             "from setmeal_dish sd left join dish d on sd.dish_id = d.id " +
             "where sd.setmeal_id = #{setmealId}")
     List<DishItemVO> getDishItemBySetmealId(Long setmealId);
+
+    /**
+     * 根据id修改套餐
+     *
+     * @param setmeal
+     */
+
 
 
 }

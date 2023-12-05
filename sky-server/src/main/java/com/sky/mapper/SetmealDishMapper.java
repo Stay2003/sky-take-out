@@ -35,4 +35,7 @@ public interface SetmealDishMapper {
      * @return
      */
     @Select("select * from setmeal_dish where setmeal_id = #{setmealId}")
-    List<SetmealDish> getBySetmealId(Long setmealId);}
+    List<SetmealDish> getBySetmealId(Long setmealId);
+
+    List<Long> getSetmealIdsByDishIds(List<Long> dishIds);
+}
