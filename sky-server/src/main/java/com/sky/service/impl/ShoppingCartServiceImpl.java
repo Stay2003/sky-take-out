@@ -37,46 +37,39 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      */
     @Override
     public void addShoppingCart(ShoppingCartDTO shoppingCartDTO) {
-        //判断当前加入购物车的商品是否已存在
+        //判断当前加入到购物车中的商品是否已经存在了
         ShoppingCart shoppingCart = new ShoppingCart();
         BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
-        Long id = BaseContext.getCurrentId();
-        shoppingCart.setUserId(id);
+        Long userId = BaseContext.getCurrentId();
+        shoppingCart.setUserId(userId);
 
         List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
 
-        //如果存在,只需数量加1
-        if (list != null && list.size()>0){
+        //如果已经存在了，只需要将数量加一
+        if(list != null && list.size() > 0){
             ShoppingCart cart = list.get(0);
-            cart.setNumber(cart.getNumber() + 1); // update shopping_cart set number = ? where id= ?
+            cart.setNumber(cart.getNumber() + 1);//update shopping_cart set number = ? where id = ?
             shoppingCartMapper.updateNumberById(cart);
-        }
-        //如果不存在,需要插入一个购物车数据
-        else {
+        }else {
+            //如果不存在，需要插入一条购物车数据
             //判断本次添加到购物车的是菜品还是套餐
             Long dishId = shoppingCartDTO.getDishId();
-
             if(dishId != null){
-              //本次添加的是菜品
+                //本次添加到购物车的是菜品
                 Dish dish = dishMapper.getById(dishId);
                 shoppingCart.setName(dish.getName());
                 shoppingCart.setImage(dish.getImage());
                 shoppingCart.setAmount(dish.getPrice());
-
-                shoppingCart.setNumber(1);
-                shoppingCart.setCreateTime(LocalDateTime.now());
             }else{
-                //本次添加的是套餐
+                //本次添加到购物车的是套餐
                 Long setmealId = shoppingCartDTO.getSetmealId();
-
                 Setmeal setmeal = setmealMapper.getById(setmealId);
                 shoppingCart.setName(setmeal.getName());
                 shoppingCart.setImage(setmeal.getImage());
                 shoppingCart.setAmount(setmeal.getPrice());
-
-                shoppingCart.setNumber(1);
-                shoppingCart.setCreateTime(LocalDateTime.now());
             }
+            shoppingCart.setNumber(1);
+            shoppingCart.setCreateTime(LocalDateTime.now());
             shoppingCartMapper.insert(shoppingCart);
         }
     }
